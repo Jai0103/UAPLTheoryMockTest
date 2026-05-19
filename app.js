@@ -413,8 +413,13 @@ function checkAccess() {
     const correctCode = "UAPL2026";
 
     if (code === correctCode) {
+
         document.getElementById("gate").style.display = "none";
         document.getElementById("app").style.display = "block";
+
+        // 🚀 IMPORTANT: START QUIZ ONLY AFTER LOGIN
+        initializeApp();
+
     } else {
         document.getElementById("errorMsg").innerText = "Invalid access code.";
     }
