@@ -415,9 +415,10 @@ function checkAccess() {
     if (code === correctCode) {
 
         Swal.fire({
-            icon: "success",
             title: "Access Granted",
             text: "Welcome to UAPL Training Portal",
+            icon: "success",
+            confirmButtonColor: "#0d6efd",
             timer: 1200,
             showConfirmButton: false
         });
@@ -426,16 +427,7 @@ function checkAccess() {
             document.getElementById("gate").style.display = "none";
             document.getElementById("app").style.display = "block";
 
-            // FIX MOBILE ZOOM
-            document.body.style.zoom = "1";
-
-            const meta = document.querySelector('meta[name="viewport"]');
-            if (meta) {
-                meta.setAttribute(
-                    "content",
-                    "width=device-width, initial-scale=1.0"
-                );
-            }
+            fixMobileZoom(); // 🔥 IMPORTANT FIX
 
             initializeApp();
         }, 1200);
@@ -443,12 +435,13 @@ function checkAccess() {
     } else {
 
         Swal.fire({
-            icon: "error",
             title: "Access Denied",
-            text: "Invalid access code"
+            text: "Invalid access code. Please try again.",
+            icon: "error",
+            confirmButtonColor: "#d93025"
         });
 
-        document.getElementById("errorMsg").innerText = "Incorrect code.";
+        document.getElementById("errorMsg").innerText = "Incorrect code. Try again.";
     }
 }
 
