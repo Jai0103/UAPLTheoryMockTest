@@ -413,7 +413,6 @@ function checkAccess() {
     const correctCode = "UAPL2026";
 
     if (code === correctCode) {
-
         Swal.fire({
             title: "Access Granted",
             text: "Welcome to UAPL Training Portal",
@@ -424,30 +423,25 @@ function checkAccess() {
         });
 
         setTimeout(() => {
-const gate = document.getElementById("gate");
-gate.style.opacity = "0";
-gate.style.transform = "scale(0.95)";
+            const gate = document.getElementById("gate");
+            gate.style.opacity = "0";
+            gate.style.transform = "scale(0.95)";
 
-setTimeout(() => {
-    gate.style.display = "none";
-    document.getElementById("app").style.display = "block";
-}, 200);
-
-            fixMobileZoom(); // 🔥 IMPORTANT FIX
+            setTimeout(() => {
+                gate.style.display = "none";
+                document.getElementById("app").style.display = "block";
+            }, 200);
 
             initializeApp();
         }, 1200);
-
     } else {
-
-        Swal.fire({
-            title: "Access Denied",
-            text: "Invalid access code. Please try again.",
-            icon: "error",
-            confirmButtonColor: "#d93025"
-        });
-
+        // SIMPLE FIX: Use native browser alert instead of Swal for errors
+        // This will ALWAYS appear above everything
+        alert("Access Denied!\nInvalid access code. Please try again.");
+        
         document.getElementById("errorMsg").innerText = "Incorrect code. Try again.";
+        document.getElementById("accessCode").value = "";
+        document.getElementById("accessCode").focus();
     }
 }
 
