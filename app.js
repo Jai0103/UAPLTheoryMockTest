@@ -11,6 +11,10 @@ function shuffleArray(array) {
     return [...array].sort(() => Math.random() - 0.5);
 }
 
+if (!Array.isArray(QUESTIONS) || QUESTIONS.length === 0) {
+    throw new Error("QUESTIONS array is missing or empty. Check questions.js.");
+}
+
 function setupQuestions() {
     const shouldShuffle = document.getElementById("shuffleToggle").checked;
     questions = shouldShuffle ? shuffleArray(QUESTIONS) : [...QUESTIONS];
@@ -34,16 +38,29 @@ function loadProgress() {
 
     try {
         const data = JSON.parse(saved);
-        questions = data.questions?.length ? data.questions : [...QUESTIONS];
-        currentQuestion = data.currentQuestion || 0;
-        currentFlashcard = data.currentFlashcard || 0;
-        userAnswers = data.userAnswers || Array(questions.length).fill(null);
+
+        const savedQuestionsValid =
+            Array.isArray(data.questions) &&
+            data.questions.length === QUESTIONS.length;
+
+        questions = savedQuestionsValid ? data.questions : [...QUESTIONS];
+
+        currentQuestion = Math.min(data.currentQuestion || 0, questions.length - 1);
+        currentFlashcard = Math.min(data.currentFlashcard || 0, questions.length - 1);
+
+        userAnswers =
+            Array.isArray(data.userAnswers) && data.userAnswers.length === questions.length
+                ? data.userAnswers
+                : Array(questions.length).fill(null);
+
         secondsLeft = data.secondsLeft || 0;
 
         document.getElementById("timerToggle").checked = !!data.timerEnabled;
         document.getElementById("shuffleToggle").checked = !!data.shuffleEnabled;
+
         return true;
     } catch {
+        localStorage.removeItem(STORAGE_KEY);
         return false;
     }
 }
