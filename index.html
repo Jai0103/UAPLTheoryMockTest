@@ -506,6 +506,26 @@ button:hover {
     .page-footer {
         font-size: 12px;
     }
+
+    .nav-icon-btn {
+    top: 14px;
+    right: 14px;
+    width: 42px;
+    height: 42px;
+    min-height: 42px;
+    font-size: 21px;
+}
+
+.nav-popup {
+    top: 68px;
+    right: 12px;
+    width: calc(100vw - 24px);
+    max-height: calc(100vh - 92px);
+}
+
+.question-nav {
+    grid-template-columns: repeat(7, 1fr);
+}
 }
 </style>
 </head>
@@ -726,12 +746,35 @@ const questions = [
 ];
 
 function toggleNavigation() {
-    const app = document.getElementById("app");
-    const button = document.getElementById("navToggle");
-    app.classList.toggle("nav-hidden");
-    button.textContent = app.classList.contains("nav-hidden") ? "Show Navigation" : "Hide Navigation";
+    const isQuizMode = document.getElementById("quizPanel").classList.contains("active");
+    const activePanel = isQuizMode
+        ? document.getElementById("quizNavPanel")
+        : document.getElementById("flashNavPanel");
+
+    document.getElementById("quizNavPanel").classList.remove("show");
+    document.getElementById("flashNavPanel").classList.remove("show");
+
+    activePanel.classList.add("show");
+    document.getElementById("navOverlay").classList.add("show");
 }
 
+    function closeNavigation() {
+    document.getElementById("quizNavPanel").classList.remove("show");
+    document.getElementById("flashNavPanel").classList.remove("show");
+    document.getElementById("navOverlay").classList.remove("show");
+}
+
+    function goToQuestion(index) {
+    currentQuestion = index;
+    renderQuiz();
+    closeNavigation();
+}
+
+function goToFlashcard(index) {
+    currentFlashcard = index;
+    renderFlashcard();
+    closeNavigation();
+}
 function switchMode(mode) {
     document.getElementById("quizPanel").classList.toggle("active", mode === "quiz");
     document.getElementById("flashPanel").classList.toggle("active", mode === "flash");
