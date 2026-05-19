@@ -14,14 +14,24 @@
     <img src="AGA_Logo_fullcolor_Horizontal.png" alt="Apollo Global Academy Logo" class="site-logo">
 </header>
 
-<body>
-
 <!-- ACCESS GATE -->
 <div id="gate" class="gate">
-    <h2>Enter Access Code</h2>
-    <input type="password" id="accessCode" placeholder="Enter code">
-    <button onclick="checkAccess()">Enter</button>
-    <p id="errorMsg" style="color:red;"></p>
+    <div class="gate-box">
+
+        <div class="gate-icon">🔐</div>
+
+        <h2>UAPL Training Portal</h2>
+        <p class="gate-subtitle">Secure access required</p>
+
+        <input type="password" id="accessCode" placeholder="Enter access code">
+
+        <button onclick="checkAccess()">Sign In</button>
+
+        <p id="errorMsg"></p>
+
+        <small class="gate-footer">Authorized learners only</small>
+
+    </div>
 </div>
 
 <!-- APP (LOCKED BY DEFAULT) -->
