@@ -627,4 +627,14 @@ button:hover {
         font-size: 14px;
         line-height: 1.6;
     }
+
+.gate-overlay {
+    z-index: 99999;
+}
+
+/* Override Swal z-index */
+.swal2-container {
+    z-index: 1000000 !important;
+}
+    
 }
