@@ -368,3 +368,28 @@ if (document.getElementById("timerToggle").checked && secondsLeft > 0) {
 
 renderQuiz();
 renderFlashcard();
+
+function showDisclaimer() {
+    Swal.fire({
+        title: 'Disclaimer',
+        icon: 'info',
+        html: `
+            <div style="text-align:left; font-size:14px; line-height:1.6;">
+                <p>
+                    This project is an <b>independent educational resource</b> and is 
+                    <b>not affiliated with, endorsed by, or connected to the Civil Aviation Authority of Singapore (CAAS)</b>.
+                </p>
+
+                <p>
+                    All questions are created for <b>practice and learning purposes only</b> and may not reflect the exact format, wording, or content of the official UAPL theory examination.
+                </p>
+
+                <p>
+                    Learners should always refer to official CAAS publications and approved training providers for accurate and updated information.
+                </p>
+            </div>
+        `,
+        confirmButtonText: 'I Understand',
+        width: 600
+    });
+}
