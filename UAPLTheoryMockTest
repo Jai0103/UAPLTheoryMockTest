@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UAPL Theory Mock Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 24px 16px 32px;
+    background:
+        radial-gradient(circle at top left, rgba(13, 110, 253, 0.16), transparent 30%),
+        linear-gradient(135deg, #f7fbff, #edf3f8);
+    color: #243447;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "CONFIDENTIAL";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-28deg);
+    font-size: clamp(44px, 12vw, 130px);
+    font-weight: 900;
+    color: rgba(13, 110, 253, 0.08);
+    letter-spacing: 8px;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+}
+
+.top-header {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.site-logo {
+    width: 58px;
+    height: auto;
+    display: block;
+}
+
+.app {
+    max-width: 980px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    text-align: center;
+    color: #0b5ed7;
+    font-size: 30px;
+    margin: 0 0 18px;
+}
+
+.mode-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-width: 520px;
+    margin: 0 auto 20px;
+}
+
+.mode-tabs button {
+    margin: 0;
+}
+
+.mode-tabs button:not(.active) {
+    background: #e7eef7;
+    color: #243447;
+}
+
+.panel {
+    display: none;
+}
+
+.panel.active {
+    display: block;
+}
+
+.quiz-layout,
+.flashcard-layout {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.nav-panel {
+    background: rgba(255, 255, 255, 0.96);
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(36, 52, 71, 0.1);
+    position: sticky;
+    top: 18px;
+}
+
+.nav-panel h2 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    color: #0b5ed7;
+}
+
+.question-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.nav-btn {
+    width: 100%;
+    margin: 0;
+    padding: 8px 0;
+    font-size: 13px;
+    border-radius: 6px;
+    background: #edf3f8;
+    color: #243447;
+}
+
+.nav-btn.active {
+    background: #0d6efd;
+    color: #fff;
+}
+
+.nav-btn.correct {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.nav-btn.wrong {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.quiz-status {
+    margin-bottom: 18px;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #43566d;
+}
+
+.progress-track {
+    height: 10px;
+    background: #dce6f1;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+#quizProgressBar,
+#flashProgressBar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #0d6efd, #20c997);
+    transition: width 0.25s ease;
+}
+
+.quiz-card,
+.result-card,
+.flashcard-shell {
+    background: rgba(255, 255, 255, 0.96);
+    padding: 28px;
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(36, 52, 71, 0.12);
+}
+
+.question-text {
+    font-size: 21px;
+    line-height: 1.4;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.option {
+    display: block;
+    margin: 12px 0;
+}
+
+.option input {
+    display: none;
+}
+
+.option span {
+    display: block;
+    padding: 14px 16px;
+    border: 2px solid #d5deea;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #fbfdff;
+    transition: 0.2s ease;
+}
+
+.option span:hover {
+    background: #f1f7ff;
+    border-color: #8bbcff;
+    transform: translateY(-1px);
+}
+
+.option input:checked + span {
+    background: #e8f2ff;
+    color: #084298;
+    border-color: #0d6efd;
+    font-weight: 700;
+}
+
+button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 800;
+    border: none;
+    border-radius: 8px;
+    background: #0d6efd;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+button:hover {
+    background: #0b5ed7;
+    transform: translateY(-1px);
+}
+
+.result-card {
+    display: none;
+    text-align: center;
+}
+
+#finalScore {
+    font-size: 34px;
+    font-weight: 900;
+    margin: 12px 0;
+}
+
+.flashcard {
+    perspective: 1200px;
+    min-height: 390px;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    min-height: 390px;
+    transition: transform 0.55s ease;
+    transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    background: rgba(255, 255, 255, 0.96);
+    padding: 28px;
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(36, 52, 71, 0.12);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flashcard-back {
+    transform: rotateY(180deg);
+    text-align: center;
+}
+
+.answer-text {
+    font-size: 22px;
+    font-weight: 900;
+    color: #0b5ed7;
+}
+
+.explanation-text {
+    color: #5d6d7e;
+    line-height: 1.6;
+}
+
+.card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.card-actions button {
+    margin-top: 14px;
+}
+
+.secondary-btn {
+    background: #e7eef7;
+    color: #243447;
+}
+
+.page-footer {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 14px;
+    color: #5d6d7e;
+    line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+    .quiz-layout,
+    .flashcard-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-panel {
+        position: static;
+    }
+
+    .question-nav {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 18px 12px 24px;
+    }
+
+    .site-logo {
+        width: 44px;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+
+    .quiz-card,
+    .result-card,
+    .flashcard-face {
+        padding: 18px;
+    }
+
+    .question-text {
+        font-size: 18px;
+    }
+
+    .status-row,
+    .card-actions {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .question-nav {
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    .page-footer {
+        font-size: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+<header class="top-header">
+    <img src="AGA_Logo_fullcolor_Horizontal.png" alt="Apollo Global Academy Logo" class="site-logo">
+</header>
+
+<div class="app">
+    <h1>UAPL Theory Mock Test</h1>
+
+    <div class="mode-tabs">
+        <button id="quizTab" class="active" onclick="switchMode('quiz')">Quiz Mode</button>
+        <button id="flashTab" onclick="switchMode('flash')">Flashcard Mode</button>
+    </div>
+
+    <section id="quizPanel" class="panel active">
+        <div class="quiz-layout">
+            <aside class="nav-panel">
+                <h2>Quiz Navigation</h2>
+                <div id="quizNav" class="question-nav"></div>
+            </aside>
+
+            <main>
+                <div class="quiz-status">
+                    <div class="status-row">
+                        <span id="quizCounter">Question 1</span>
+                        <span id="scoreCounter">Score: 0</span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="quizProgressBar"></div>
+                    </div>
+                </div>
+
+                <div id="quizCard" class="quiz-card">
+                    <div id="quizQuestionText" class="question-text"></div>
+                    <div id="quizOptionsBox"></div>
+                    <button onclick="checkAnswer()">Submit Answer</button>
+                </div>
+
+                <div id="resultCard" class="result-card">
+                    <h2>Quiz Completed</h2>
+                    <p id="finalScore"></p>
+                    <p id="finalMessage"></p>
+                    <button onclick="retakeQuiz()">Retake Quiz</button>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <section id="flashPanel" class="panel">
+        <div class="flashcard-layout">
+            <aside class="nav-panel">
+                <h2>Flashcards</h2>
+                <div id="flashNav" class="question-nav"></div>
+            </aside>
+
+            <main>
+                <div class="quiz-status">
+                    <div class="status-row">
+                        <span id="flashCounter">Card 1</span>
+                        <span id="flashHint">Click flip to reveal answer</span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="flashProgressBar"></div>
+                    </div>
+                </div>
+
+                <div id="flashcard" class="flashcard">
+                    <div class="flashcard-inner">
+                        <section class="flashcard-face">
+                            <div id="flashQuestionText" class="question-text"></div>
+                            <button onclick="flipCard()">Flip Card</button>
+                        </section>
+
+                        <section class="flashcard-face flashcard-back">
+                            <h2>Answer</h2>
+                            <p id="flashAnswerText" class="answer-text"></p>
+                            <p id="flashExplanationText" class="explanation-text"></p>
+                            <button onclick="flipCard()">Show Question</button>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    <button class="secondary-btn" onclick="previousFlashcard()">Previous</button>
+                    <button onclick="nextFlashcard()">Next</button>
+                    <button class="secondary-btn" onclick="resetFlashcards()">Restart</button>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <footer class="page-footer">
+        &copy; Copyright 2026. Apollo Global Academy. All Rights Reserved | Build &amp; Design by: Jairus
+    </footer>
+</div>
+
+<script>
+let currentQuestion = 0;
+let currentFlashcard = 0;
+let score = 0;
+let userAnswers = [];
+
+const questions = [
+    {
+        question: "Which component in a UAS is responsible for providing thrust?",
+        options: ["Flight Controller", "Receiver", "Propulsion System", "GNSS"],
+        answer: 2,
+        explanation: "The propulsion system creates thrust for movement."
+    },
+    {
+        question: "What is a defining characteristic of a multirotor drone?",
+        options: ["Uses lighter-than-air gas", "Has a single fixed wing", "Has multiple lift-generating rotors", "Can only fly in one direction"],
+        answer: 2,
+        explanation: "A multirotor uses several rotors to generate lift."
+    },
+    {
+        question: "What type of aircraft is an airship?",
+        options: ["Fixed-wing", "Powered-lift", "Rotorcraft", "Lighter-than-air"],
+        answer: 3,
+        explanation: "Airships use buoyant gas, so they are lighter-than-air aircraft."
+    },
+    {
+        question: "Which force acts upward and counters the weight of the aircraft?",
+        options: ["Thrust", "Drag", "Lift", "Inertia"],
+        answer: 2,
+        explanation: "Lift acts upward against weight."
+    },
+    {
+        question: "What causes an aerodynamic stall?",
+        options: ["Too low airspeed", "Too much thrust", "Critical angle of attack exceeded", "Damaged propeller"],
+        answer: 2,
+        explanation: "A stall happens when the critical angle of attack is exceeded."
+    },
+    {
+        question: "Which axis of motion is controlled by ailerons?",
+        options: ["Yaw", "Pitch", "Roll", "Drag"],
+        answer: 2,
+        explanation: "Ailerons control roll."
+    },
+    {
+        question: "Which authority regulates unmanned aircraft operations in Singapore?",
+        options: ["LTA", "CAAS", "MOT", "PUB"],
+        answer: 1,
+        explanation: "CAAS regulates unmanned aircraft operations in Singapore."
+    },
+    {
+        question: "What is the penalty for unauthorized photography over protected areas?",
+        options: ["Warning only", "Fine or jail time", "License suspension", "No penalty"],
+        answer: 1,
+        explanation: "Unauthorized activity may result in fines or imprisonment."
+    },
+    {
+        question: "What is prohibited from being carried by unmanned aircraft?",
+        options: ["Water", "Hazardous materials", "Cameras", "Batteries"],
+        answer: 1,
+        explanation: "Hazardous materials are not allowed to be carried."
+    },
+    {
+        question: "What does GPS use to determine position?",
+        options: ["Barometric pressure", "Laser scanning", "Satellite timing", "Radar triangulation"],
+        answer: 2,
+        explanation: "GPS uses satellite timing signals to calculate position."
+    },
+    {
+        question: "Which atmospheric condition causes signal delay in the troposphere?",
+        options: ["Humidity", "Temperature", "Refractive index", "Wind speed"],
+        answer: 2,
+        explanation: "Tropospheric refraction can delay signals."
+    },
+    {
+        question: "Which cloud type is most associated with thunderstorms?",
+        options: ["Cumulus", "Stratus", "Cumulonimbus", "Cirrus"],
+        answer: 2,
+        explanation: "Cumulonimbus clouds are linked to thunderstorms."
+    },
+    {
+        question: "What does the 'L' represent in the SHELL model?",
+        options: ["Latitude", "Lift", "Liveware", "Legislation"],
+        answer: 2,
+        explanation: "Liveware refers to the human element."
+    },
+    {
+        question: "Which visual illusion causes a stationary light to appear as if it is moving?",
+        options: ["Motion blur", "Tunnel vision", "Autokinesis", "VOR illusion"],
+        answer: 2,
+        explanation: "Autokinesis makes a fixed light appear to move."
+    },
+    {
+        question: "Which factor is most important for good Liveware-Hardware interface?",
+        options: ["Weight of equipment", "User comfort and clarity", "Color of display", "Size of manual"],
+        answer: 1,
+        explanation: "Good interfaces should be clear and comfortable to use."
+    },
+    {
+        question: "What is the typical process flow for risk management?",
+        options: ["Assessing risks, determining mitigation actions, and identifying hazards", "Identifying hazards, determining mitigation actions, and assessing risks", "Identifying hazards, assessing risks, and determining mitigation actions", "Assessing risks, identifying hazards, and determining mitigation actions"],
+        answer: 2,
+        explanation: "Risk management starts with hazards, then risk assessment, then mitigation."
+    },
+    {
+        question: "What does an Unmanned Aircraft System (UAS) typically comprise?",
+        options: ["Unmanned Aircraft, Command and Control C2 Link, Ground Control Station", "Electrical System, Propulsion System, Flight Control System, Ground Control System, Command & Control System", "Unmanned Aircraft (UA), Command and Control (C2) System, Electrical System, Flight Control System", "Electrical System, Propulsion System, Flight Control System"],
+        answer: 0,
+        explanation: "A UAS includes the aircraft, C2 link, and ground control station."
+    },
+    {
+        question: "You want to fly a 1kg FPV below 200 ft AMSL, outside of 5km from the aerodrome and not within a protected area. What approvals do you need?",
+        options: ["Class 1 Activity Permit", "Class 2 Activity Permit", "Class 1 Activity Permit and Operator Permit", "None - fly according to CAAS safe flying guidelines with the assistance of an observer"],
+        answer: 3,
+        explanation: "No permit is needed if operating within the stated safe conditions."
+    },
+    {
+        question: "How do you change the spinning direction of a motor?",
+        options: ["Change all three connections of the motor cables to the ESC", "Swap the ESC signal ground wire and ESC Signal Wire", "Swap only the right and the left connections of the motor cables to the ESC", "Swap any two cables from the ESC to the motor"],
+        answer: 3,
+        explanation: "Swapping any two motor wires reverses motor direction."
+    },
+    {
+        question: "What is the minimum age to register an unmanned aircraft?",
+        options: ["18", "16", "20", "22"],
+        answer: 1,
+        explanation: "The minimum registration age is 16."
+    },
+    {
+        question: "You have just de-registered a UA that had crashed and are trying to buy a registration label for a replacement UA. The system does not allow you to do so. What do you do?",
+        options: ["There is something wrong with the de-registration, wait and try again", "The portal has a bug, report it to CAAS for assistance", "You have exceeded the number of aircraft registrations that you have, contact CAAS to extend your purchasing limit", "The registration label is out of stock, wait for restocking"],
+        answer: 2,
+        explanation: "You may need CAAS to extend your registration label limit."
+    },
+    {
+        question: "What is the authoritative source to check temporary airspace restrictions and the official source of no-fly zones?",
+        options: ["Onemap", "Google Map", "SGmap", "Flywhere"],
+        answer: 0,
+        explanation: "OneMap is the official source for such checks."
+    },
+    {
+        question: "You are on approach to an airfield with a constant speed and descent rate. You notice that your speed is slowly decreasing. The AOA is 5 degrees and the critical AOA is 15 degrees. What should you do?",
+        options: ["Do nothing, it is normal for the speed to decrease", "Take stall prevention actions, you are about to stall", "Increase throttle and adjust pitch as required", "Increase AOA to compensate for the reduced speed"],
+        answer: 2,
+        explanation: "Add power and adjust pitch to maintain a safe approach."
+    },
+    {
+        question: "Which of the following is false about clouds?",
+        options: ["There is turbulence under a cumulus cloud, whereas a cumulonimbus cloud will have lightning and turbulence", "There is no turbulence under a cumulus cloud, whereas a cumulonimbus cloud will have lightning and turbulence", "Cumulonimbus clouds are patchy grey or white clouds that often have a dark honeycomb-like appearance", "Cumulonimbus clouds can reach up to the thermosphere"],
+        answer: 1,
+        explanation: "Cumulus clouds can still be associated with turbulence."
+    },
+    {
+        question: "What is the advantage of an aeroplane over a multirotor?",
+        options: ["Weight, Aeroplane is lighter than multirotor", "Range, Aeroplanes can fly further because of better transmission range as compared to multirotors", "Range, Aeroplane can fly further because of better power efficiency flight as compared to Multirotor", "Range, Aeroplanes can fly further because of better transmission range and power efficiency flight as compared to multirotors"],
+        answer: 2,
+        explanation: "Aeroplanes are generally more power efficient in forward flight."
+    }
+];
+
+function switchMode(mode) {
+    document.getElementById("quizPanel").classList.toggle("active", mode === "quiz");
+    document.getElementById("flashPanel").classList.toggle("active", mode === "flash");
+    document.getElementById("quizTab").classList.toggle("active", mode === "quiz");
+    document.getElementById("flashTab").classList.toggle("active", mode === "flash");
+    renderQuiz();
+    renderFlashcard();
+}
+
+function initAnswers() {
+    userAnswers = Array(questions.length).fill(null);
+}
+
+function getScore() {
+    return userAnswers.reduce((total, answer, index) => {
+        return answer === questions[index].answer ? total + 1 : total;
+    }, 0);
+}
+
+function renderQuizNav() {
+    document.getElementById("quizNav").innerHTML = questions.map((question, index) => {
+        let className = "nav-btn";
+        if (userAnswers[index] !== null) {
+            className += userAnswers[index] === question.answer ? " correct" : " wrong";
+        }
+        if (index === currentQuestion) className += " active";
+        return `<button class="${className}" onclick="goToQuestion(${index})">${index + 1}</button>`;
+    }).join("");
+}
+
+function renderFlashNav() {
+    document.getElementById("flashNav").innerHTML = questions.map((question, index) => {
+        const className = index === currentFlashcard ? "nav-btn active" : "nav-btn";
+        return `<button class="${className}" onclick="goToFlashcard(${index})">${index + 1}</button>`;
+    }).join("");
+}
+
+function renderQuiz() {
+    const question = questions[currentQuestion];
+    const letters = ["a", "b", "c", "d"];
+    const answeredCount = userAnswers.filter(answer => answer !== null).length;
+
+    document.getElementById("resultCard").style.display = "none";
+    document.getElementById("quizCard").style.display = "block";
+    document.getElementById("quizCounter").textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+    document.getElementById("scoreCounter").textContent = `Score: ${getScore()}`;
+    document.getElementById("quizProgressBar").style.width = `${(answeredCount / questions.length) * 100}%`;
+
+    document.getElementById("quizQuestionText").textContent = `Q${currentQuestion + 1}: ${question.question}`;
+    document.getElementById("quizOptionsBox").innerHTML = question.options.map((option, index) => {
+        const checked = userAnswers[currentQuestion] === index ? "checked" : "";
+        const disabled = userAnswers[currentQuestion] !== null ? "disabled" : "";
+        return `
+            <label class="option">
+                <input type="radio" name="answer" value="${index}" ${checked} ${disabled}>
+                <span>${letters[index]}) ${option}</span>
+            </label>
+        `;
+    }).join("");
+
+    renderQuizNav();
+}
+
+function goToQuestion(index) {
+    currentQuestion = index;
+    renderQuiz();
+}
+
+function checkAnswer() {
+    if (userAnswers[currentQuestion] !== null) {
+        Swal.fire({
+            title: "Already answered",
+            html: `<strong>Correct answer:</strong> ${questions[currentQuestion].options[questions[currentQuestion].answer]}<br><br>${questions[currentQuestion].explanation}`,
+            icon: "info",
+            confirmButtonColor: "#0d6efd"
+        });
+        return;
+    }
+
+    const selected = document.querySelector('input[name="answer"]:checked');
+
+    if (!selected) {
+        Swal.fire({
+            title: "Choose an answer",
+            text: "Please select an option before submitting.",
+            icon: "warning",
+            confirmButtonColor: "#0d6efd"
+        });
+        return;
+    }
+
+    const question = questions[currentQuestion];
+    const selectedAnswer = Number(selected.value);
+    const isCorrect = selectedAnswer === question.answer;
+
+    userAnswers[currentQuestion] = selectedAnswer;
+
+    Swal.fire({
+        title: isCorrect ? "Correct!" : "Incorrect",
+        html: isCorrect
+            ? question.explanation
+            : `<strong>Correct answer:</strong> ${question.options[question.answer]}<br><br>${question.explanation}`,
+        icon: isCorrect ? "success" : "error",
+        confirmButtonText: currentQuestion === questions.length - 1 ? "Finish" : "Continue",
+        confirmButtonColor: "#0d6efd"
+    }).then(() => {
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            renderQuiz();
+        } else {
+            showFinalResult();
+        }
+    });
+}
+
+function showFinalResult() {
+    const total = questions.length;
+    const finalScore = getScore();
+    const percentage = Math.round((finalScore / total) * 100);
+
+    document.getElementById("quizCard").style.display = "none";
+    document.getElementById("resultCard").style.display = "block";
+    document.getElementById("quizProgressBar").style.width = "100%";
+    document.getElementById("quizCounter").textContent = `Completed ${total} questions`;
+    document.getElementById("scoreCounter").textContent = `Final Score: ${finalScore}/${total}`;
+    document.getElementById("finalScore").textContent = `${finalScore} / ${total} (${percentage}%)`;
+
+    document.getElementById("finalMessage").textContent =
+        percentage >= 80
+            ? "Great work. You have a strong grasp of the material."
+            : percentage >= 50
+                ? "Good effort. Review the flashcards and try again."
+                : "Keep practicing with the flashcards, then retake the quiz.";
+
+    renderQuizNav();
+}
+
+function retakeQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    initAnswers();
+    renderQuiz();
+}
+
+function renderFlashcard() {
+    const question = questions[currentFlashcard];
+
+    document.getElementById("flashcard").classList.remove("flipped");
+    document.getElementById("flashCounter").textContent = `Card ${currentFlashcard + 1} of ${questions.length}`;
+    document.getElementById("flashProgressBar").style.width = `${((currentFlashcard + 1) / questions.length) * 100}%`;
+    document.getElementById("flashQuestionText").textContent = `Q${currentFlashcard + 1}: ${question.question}`;
+    document.getElementById("flashAnswerText").textContent = question.options[question.answer];
+    document.getElementById("flashExplanationText").textContent = question.explanation;
+
+    renderFlashNav();
+}
+
+function flipCard() {
+    document.getElementById("flashcard").classList.toggle("flipped");
+}
+
+function nextFlashcard() {
+    currentFlashcard = currentFlashcard < questions.length - 1 ? currentFlashcard + 1 : 0;
+    renderFlashcard();
+}
+
+function previousFlashcard() {
+    currentFlashcard = currentFlashcard > 0 ? currentFlashcard - 1 : questions.length - 1;
+    renderFlashcard();
+}
+
+function goToFlashcard(index) {
+    currentFlashcard = index;
+    renderFlashcard();
+}
+
+function resetFlashcards() {
+    currentFlashcard = 0;
+    renderFlashcard();
+}
+
+initAnswers();
+renderQuiz();
+renderFlashcard();
+</script>
+</body>
+</html>
