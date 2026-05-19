@@ -424,8 +424,14 @@ function checkAccess() {
         });
 
         setTimeout(() => {
-            document.getElementById("gate").style.display = "none";
-            document.getElementById("app").style.display = "block";
+const gate = document.getElementById("gate");
+gate.style.opacity = "0";
+gate.style.transform = "scale(0.95)";
+
+setTimeout(() => {
+    gate.style.display = "none";
+    document.getElementById("app").style.display = "block";
+}, 200);
 
             fixMobileZoom(); // 🔥 IMPORTANT FIX
 
