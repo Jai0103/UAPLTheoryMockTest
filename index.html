@@ -591,14 +591,6 @@ button:hover {
     line-height: 1.6;
 }
 
-@media (max-width: 820px) {
-    .quiz-layout,
- 
-
-    .nav-panel {
-        position: static;
-    }
-
     .question-nav {
         grid-template-columns: repeat(10, 1fr);
         max-height: 180px;
@@ -664,7 +656,53 @@ button:hover {
 }
 
 
+/* Final navigation popup fix */
+.nav-panel.nav-popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: min(420px, calc(100vw - 28px));
+    max-height: min(620px, calc(100dvh - 56px));
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    overflow: hidden;
+}
 
+.nav-panel.nav-popup.show {
+    display: block;
+}
+
+.nav-overlay {
+    z-index: 9998;
+}
+
+.nav-icon-btn {
+    z-index: 9997;
+}
+
+@media (max-width: 820px) {
+    .nav-panel.nav-popup {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: calc(100vw - 24px);
+        max-height: calc(100dvh - 40px);
+        transform: translate(-50%, -50%);
+    }
+
+    .question-nav {
+        grid-template-columns: repeat(7, 1fr);
+        max-height: calc(100dvh - 150px);
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 420px) {
+    .question-nav {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
 
 }
 </style>
@@ -998,10 +1036,7 @@ function renderQuiz() {
     renderQuizNav();
 }
 
-function goToQuestion(index) {
-    currentQuestion = index;
-    renderQuiz();
-}
+
 
 function checkAnswer() {
     if (userAnswers[currentQuestion] !== null) {
@@ -1105,10 +1140,7 @@ function previousFlashcard() {
     renderFlashcard();
 }
 
-function goToFlashcard(index) {
-    currentFlashcard = index;
-    renderFlashcard();
-}
+
 
 function resetFlashcards() {
     currentFlashcard = 0;
