@@ -704,6 +704,38 @@ button:hover {
     }
 }
 
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-icon {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    font-size: 17px;
+    line-height: 1;
+}
+
+.flip-btn {
+    background: var(--blue);
+}
+
+.show-question-btn {
+    background: #188038;
+    border-color: #188038;
+}
+
+.show-question-btn:hover {
+    background: #146c2e;
+}
+    
 }
 </style>
 </head>
@@ -789,14 +821,20 @@ button:hover {
                     <div class="flashcard-inner">
                         <section class="flashcard-face">
                             <div id="flashQuestionText" class="question-text"></div>
-                            <button onclick="flipCard()">Flip Card</button>
+                            <button class="icon-btn flip-btn" onclick="flipCard()" aria-label="Flip card">
+    <span class="btn-icon">↻</span>
+    <span>Flip Card</span>
+</button>
                         </section>
 
                         <section class="flashcard-face flashcard-back">
                             <h2>Answer</h2>
                             <p id="flashAnswerText" class="answer-text"></p>
                             <p id="flashExplanationText" class="explanation-text"></p>
-                            <button onclick="flipCard()">Show Question</button>
+                            <button class="icon-btn show-question-btn" onclick="flipCard()" aria-label="Show question">
+    <span class="btn-icon">←</span>
+    <span>Show Question</span>
+</button>
                         </section>
                     </div>
                 </div>
