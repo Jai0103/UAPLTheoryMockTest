@@ -115,11 +115,7 @@ button:hover {
 
 .mode-tabs button:not(.active),
 .secondary-btn,
-.nav-toggle {
-    background: transparent;
-    color: var(--blue-dark);
-    border-color: #c6dafc;
-}
+
 
 .mode-tabs button.active {
     background: #fff;
@@ -127,12 +123,6 @@ button:hover {
     box-shadow: 0 4px 12px rgba(60, 64, 67, 0.12);
 }
 
-.nav-toggle {
-    max-width: 210px;
-    margin: 0 auto 18px;
-    display: block;
-    background: #fff;
-}
 
 .panel {
     display: none;
@@ -144,20 +134,101 @@ button:hover {
 
 .quiz-layout,
 .flashcard-layout {
-    display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: 22px;
-    align-items: start;
+    display: block;
 }
 
-.nav-hidden .quiz-layout,
-.nav-hidden .flashcard-layout {
-    grid-template-columns: 1fr;
+.nav-icon-btn {
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    z-index: 20;
+    width: 48px;
+    height: 48px;
+    min-height: 48px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--blue-dark);
+    border: 1px solid #c6dafc;
+    box-shadow: 0 10px 24px rgba(36, 52, 71, 0.16);
+    font-size: 24px;
+    line-height: 1;
 }
 
-.nav-hidden .nav-panel {
+.nav-icon-btn:hover {
+    background: #e8f0fe;
+    box-shadow: 0 12px 28px rgba(36, 52, 71, 0.2);
+}
+
+.nav-overlay {
     display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.38);
+    z-index: 30;
 }
+
+.nav-overlay.show {
+    display: block;
+}
+
+.nav-popup {
+    display: none;
+    position: fixed;
+    top: 86px;
+    right: 22px;
+    width: min(360px, calc(100vw - 32px));
+    max-height: calc(100vh - 120px);
+    overflow: hidden;
+    z-index: 40;
+}
+
+.nav-popup.show {
+    display: block;
+}
+
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.nav-header h2 {
+    margin: 0;
+}
+
+.nav-close {
+    width: 34px;
+    height: 34px;
+    min-height: 34px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: #f1f5fb;
+    color: #344054;
+    font-size: 22px;
+    line-height: 1;
+    box-shadow: none;
+}
+
+.nav-close:hover {
+    background: #e8f0fe;
+    color: var(--blue-dark);
+    box-shadow: none;
+}
+
+.question-nav {
+    grid-template-columns: repeat(6, 1fr);
+    max-height: calc(100vh - 190px);
+}
+
+
+
+
+
 
 .nav-panel {
     background: var(--surface);
@@ -384,9 +455,7 @@ button:hover {
 
 @media (max-width: 820px) {
     .quiz-layout,
-    .flashcard-layout {
-        grid-template-columns: 1fr;
-    }
+ 
 
     .nav-panel {
         position: static;
@@ -454,14 +523,21 @@ button:hover {
         <button id="flashTab" onclick="switchMode('flash')">Flashcard Mode</button>
     </div>
 
-    <button id="navToggle" class="nav-toggle" onclick="toggleNavigation()">Hide Navigation</button>
+    <button id="navToggle" class="nav-icon-btn" onclick="toggleNavigation()" aria-label="Open navigation">
+    ☰
+</button>
+
+<div id="navOverlay" class="nav-overlay" onclick="closeNavigation()"></div>
 
     <section id="quizPanel" class="panel active">
         <div class="quiz-layout">
-            <aside class="nav-panel">
-                <h2>Quiz Navigation</h2>
-                <div id="quizNav" class="question-nav"></div>
-            </aside>
+           <aside id="quizNavPanel" class="nav-panel nav-popup">
+    <div class="nav-header">
+        <h2>Quiz Navigation</h2>
+        <button class="nav-close" onclick="closeNavigation()" aria-label="Close navigation">×</button>
+    </div>
+    <div id="quizNav" class="question-nav"></div>
+</aside>>
 
             <main>
                 <div class="quiz-status">
@@ -492,10 +568,13 @@ button:hover {
 
     <section id="flashPanel" class="panel">
         <div class="flashcard-layout">
-            <aside class="nav-panel">
-                <h2>Flashcards</h2>
-                <div id="flashNav" class="question-nav"></div>
-            </aside>
+<aside id="flashNavPanel" class="nav-panel nav-popup">
+    <div class="nav-header">
+        <h2>Flashcards</h2>
+        <button class="nav-close" onclick="closeNavigation()" aria-label="Close navigation">×</button>
+    </div>
+    <div id="flashNav" class="question-nav"></div>
+</aside>
 
             <main>
                 <div class="quiz-status">
