@@ -507,4 +507,10 @@ button:hover {
         grid-template-columns: repeat(5, 1fr);
     }
     .page-footer { font-size: 12px; }
+
+    .disclaimer-text {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.6;
+}
 }
