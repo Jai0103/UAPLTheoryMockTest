@@ -715,5 +715,18 @@ button:hover {
         opacity: 1;
     }
 }
+
+.gate-modal {
+    position: relative;
+    z-index: 100000;
+}
+
+#errorMsg {
+    position: relative;
+    z-index: 100001;
+    display: block;
+    color: #d93025;
+    font-weight: 600;
+}
     
 }
