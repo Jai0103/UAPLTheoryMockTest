@@ -146,10 +146,10 @@ button:hover {
 }
 
 .settings-row {
-    max-width: 540px;
+    max-width: 360px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr auto;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
     align-items: center;
 }
