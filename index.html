@@ -9,15 +9,26 @@
 <style>
 * { box-sizing: border-box; }
 
+:root {
+    --blue: #0d6efd;
+    --blue-dark: #0b5ed7;
+    --green: #188038;
+    --red: #d93025;
+    --ink: #243447;
+    --muted: #667085;
+    --line: #d7e2ee;
+    --surface: rgba(255, 255, 255, 0.96);
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Inter, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     margin: 0;
     padding: 24px 16px 32px;
     background:
-        radial-gradient(circle at top left, rgba(13, 110, 253, 0.16), transparent 30%),
+        radial-gradient(circle at top left, rgba(13, 110, 253, 0.14), transparent 30%),
         linear-gradient(135deg, #f7fbff, #edf3f8);
-    color: #243447;
+    color: var(--ink);
     position: relative;
     overflow-x: hidden;
 }
@@ -28,9 +39,9 @@ body::before {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-28deg);
-    font-size: clamp(44px, 12vw, 130px);
+    font-size: clamp(42px, 12vw, 130px);
     font-weight: 900;
-    color: rgba(13, 110, 253, 0.08);
+    color: rgba(13, 110, 253, 0.07);
     letter-spacing: 8px;
     pointer-events: none;
     z-index: 0;
@@ -40,7 +51,7 @@ body::before {
 .top-header,
 .app {
     width: 100%;
-    max-width: 980px;
+    max-width: 1080px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -58,53 +69,69 @@ body::before {
 
 h1 {
     text-align: center;
-    color: #0b5ed7;
-    font-size: 30px;
+    color: var(--blue-dark);
+    font-size: clamp(24px, 4vw, 34px);
     margin: 0 0 18px;
+    letter-spacing: 0;
 }
 
 .mode-tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
     max-width: 520px;
-    margin: 0 auto 16px;
+    margin: 0 auto 14px;
+    padding: 6px;
+    background: #e8f0fe;
+    border: 1px solid #d2e3fc;
+    border-radius: 12px;
 }
 
 button {
     width: 100%;
-    margin-top: 18px;
-    padding: 14px 24px;
-    font-size: 16px;
-    font-weight: 800;
-    border: none;
-    border-radius: 8px;
-    background: #0d6efd;
-    color: white;
+    min-height: 44px;
+    margin-top: 16px;
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: var(--blue);
+    color: #fff;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
 
 button:hover {
-    background: #0b5ed7;
+    background: var(--blue-dark);
+    box-shadow: 0 8px 18px rgba(13, 110, 253, 0.22);
     transform: translateY(-1px);
 }
 
 .mode-tabs button {
     margin: 0;
+    border-radius: 8px;
 }
 
 .mode-tabs button:not(.active),
 .secondary-btn,
 .nav-toggle {
-    background: #e7eef7;
-    color: #243447;
+    background: transparent;
+    color: var(--blue-dark);
+    border-color: #c6dafc;
+}
+
+.mode-tabs button.active {
+    background: #fff;
+    color: var(--blue-dark);
+    box-shadow: 0 4px 12px rgba(60, 64, 67, 0.12);
 }
 
 .nav-toggle {
-    max-width: 220px;
+    max-width: 210px;
     margin: 0 auto 18px;
     display: block;
+    background: #fff;
 }
 
 .panel {
@@ -118,8 +145,8 @@ button:hover {
 .quiz-layout,
 .flashcard-layout {
     display: grid;
-    grid-template-columns: 190px 1fr;
-    gap: 20px;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 22px;
     align-items: start;
 }
 
@@ -133,55 +160,70 @@ button:hover {
 }
 
 .nav-panel {
-    background: rgba(255, 255, 255, 0.96);
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0 16px 40px rgba(36, 52, 71, 0.1);
+    background: var(--surface);
+    padding: 14px;
+    border: 1px solid rgba(215, 226, 238, 0.9);
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(36, 52, 71, 0.08);
     position: sticky;
     top: 18px;
 }
 
 .nav-panel h2 {
     margin: 0 0 12px;
-    font-size: 16px;
-    color: #0b5ed7;
+    font-size: 14px;
+    color: var(--blue-dark);
+    text-transform: uppercase;
+    letter-spacing: 0;
 }
 
 .question-nav {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
     max-height: 520px;
     overflow-y: auto;
+    padding-right: 2px;
 }
 
 .nav-btn {
-    width: 100%;
+    min-height: 34px;
     margin: 0;
-    padding: 8px 0;
-    font-size: 13px;
-    border-radius: 6px;
-    background: #edf3f8;
-    color: #243447;
+    padding: 0;
+    font-size: 12px;
+    border-radius: 999px;
+    background: #f1f5fb;
+    color: #344054;
+    border: 1px solid #d8e2ef;
+    box-shadow: none;
+}
+
+.nav-btn:hover {
+    background: #e8f0fe;
+    color: var(--blue-dark);
+    box-shadow: none;
 }
 
 .nav-btn.active {
-    background: #0d6efd;
+    background: var(--blue);
     color: #fff;
+    border-color: var(--blue);
 }
 
 .nav-btn.correct {
-    background: #d1e7dd;
-    color: #0f5132;
+    background: #e6f4ea;
+    color: var(--green);
+    border-color: #b7dfc2;
 }
 
 .nav-btn.wrong {
-    background: #f8d7da;
-    color: #842029;
+    background: #fce8e6;
+    color: var(--red);
+    border-color: #f3b8b3;
 }
 
 .quiz-status {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .status-row {
@@ -190,11 +232,11 @@ button:hover {
     gap: 12px;
     margin-bottom: 10px;
     font-weight: 700;
-    color: #43566d;
+    color: #475467;
 }
 
 .progress-track {
-    height: 10px;
+    height: 9px;
     background: #dce6f1;
     border-radius: 999px;
     overflow: hidden;
@@ -204,28 +246,29 @@ button:hover {
 #flashProgressBar {
     width: 0%;
     height: 100%;
-    background: linear-gradient(90deg, #0d6efd, #20c997);
+    background: linear-gradient(90deg, var(--blue), #20c997);
     transition: width 0.25s ease;
 }
 
 .quiz-card,
 .result-card {
-    background: rgba(255, 255, 255, 0.96);
-    padding: 28px;
-    border-radius: 8px;
-    box-shadow: 0 16px 40px rgba(36, 52, 71, 0.12);
+    background: var(--surface);
+    padding: 30px;
+    border: 1px solid rgba(215, 226, 238, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 14px 36px rgba(36, 52, 71, 0.10);
 }
 
 .question-text {
-    font-size: 21px;
-    line-height: 1.4;
+    font-size: clamp(18px, 3vw, 23px);
+    line-height: 1.45;
     font-weight: 800;
     margin-bottom: 20px;
 }
 
 .option {
     display: block;
-    margin: 12px 0;
+    margin: 10px 0;
 }
 
 .option input {
@@ -235,23 +278,22 @@ button:hover {
 .option span {
     display: block;
     padding: 14px 16px;
-    border: 2px solid #d5deea;
-    border-radius: 8px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
     cursor: pointer;
-    background: #fbfdff;
-    transition: 0.2s ease;
+    background: #fff;
+    transition: 0.18s ease;
 }
 
 .option span:hover {
-    background: #f1f7ff;
-    border-color: #8bbcff;
-    transform: translateY(-1px);
+    background: #f8fbff;
+    border-color: #9cc3ff;
 }
 
 .option input:checked + span {
-    background: #e8f2ff;
+    background: #e8f0fe;
     color: #084298;
-    border-color: #0d6efd;
+    border-color: var(--blue);
     font-weight: 700;
 }
 
@@ -261,20 +303,20 @@ button:hover {
 }
 
 #finalScore {
-    font-size: 34px;
+    font-size: 36px;
     font-weight: 900;
     margin: 12px 0;
 }
 
 .flashcard {
     perspective: 1200px;
-    min-height: 410px;
+    min-height: 420px;
 }
 
 .flashcard-inner {
     position: relative;
     width: 100%;
-    min-height: 410px;
+    min-height: 420px;
     transition: transform 0.55s ease;
     transform-style: preserve-3d;
 }
@@ -287,10 +329,11 @@ button:hover {
     position: absolute;
     inset: 0;
     backface-visibility: hidden;
-    background: rgba(255, 255, 255, 0.96);
-    padding: 28px;
-    border-radius: 8px;
-    box-shadow: 0 16px 40px rgba(36, 52, 71, 0.12);
+    background: var(--surface);
+    padding: 30px;
+    border: 1px solid rgba(215, 226, 238, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 14px 36px rgba(36, 52, 71, 0.10);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -304,12 +347,12 @@ button:hover {
 .answer-text {
     font-size: 22px;
     font-weight: 900;
-    color: #0b5ed7;
+    color: var(--blue-dark);
 }
 
 .explanation-text {
-    color: #5d6d7e;
-    line-height: 1.6;
+    color: var(--muted);
+    line-height: 1.65;
 }
 
 .card-actions {
@@ -325,12 +368,12 @@ button:hover {
 .page-footer {
     margin-top: 28px;
     text-align: center;
-    font-size: 14px;
-    color: #5d6d7e;
+    font-size: 13px;
+    color: var(--muted);
     line-height: 1.6;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 820px) {
     .quiz-layout,
     .flashcard-layout {
         grid-template-columns: 1fr;
@@ -341,8 +384,8 @@ button:hover {
     }
 
     .question-nav {
-        grid-template-columns: repeat(8, 1fr);
-        max-height: 220px;
+        grid-template-columns: repeat(10, 1fr);
+        max-height: 180px;
     }
 }
 
@@ -355,29 +398,31 @@ button:hover {
         width: 44px;
     }
 
-    h1 {
-        font-size: 23px;
+    .mode-tabs {
+        max-width: none;
     }
 
     .quiz-card,
     .result-card,
     .flashcard-face {
         padding: 18px;
-    }
-
-    .question-text {
-        font-size: 18px;
+        border-radius: 14px;
     }
 
     .status-row,
     .card-actions {
         grid-template-columns: 1fr;
         flex-direction: column;
-        gap: 4px;
+        gap: 5px;
     }
 
     .question-nav {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .nav-btn {
+        min-height: 32px;
+        font-size: 11px;
     }
 
     .page-footer {
@@ -582,7 +627,14 @@ const questions = [
 {question:"Which is true about an ultrasonic sensor and a vision sensor comparison?",options:["Ultrasonic sensors have better accuracy under good lighting as compared to vision sensors","Ultrasonic sensors are unaffected by fog and poor lighting, while vision sensors are affected","Vision sensors have a longer effective measuring range than Ultrasonic sensors","All of the above"],answer:1,explanation:"Vision sensors are more affected by lighting and visibility."},
 {question:"Which operation is the best for a rotorcraft?",options:["Wide area mapping","Building inspection","Long-range surveillance","Long-distance delivery"],answer:1,explanation:"Rotorcraft are well suited for close inspection work."},
 {question:"Which is not considered a hazard when flying a UA operation?",options:["Forecast of approaching fog","Trees and poles within the operational zone","Temporary structures around the operational zone","Tall buildings out of the operational zone"],answer:3,explanation:"Hazards outside the operational zone are less directly relevant."},
-{question:"What are the names of the 4 forces?",options:["Lift, Gravity, Drag, Propulsion","Lift, Gravity, Drag, Thrust","Lift, Weight, Drag, Thrust","Lift, Weight, Drag, Propulsion"],answer:3,explanation:"This follows the answer key you provided."}
+{question:"What are the names of the 4 forces?",options:["Lift, Gravity, Drag, Propulsion","Lift, Gravity, Drag, Thrust","Lift, Weight, Drag, Thrust","Lift, Weight, Drag, Propulsion"],answer:3,explanation:"This follows the answer key you provided."},
+{question:"The registration of unmanned aircraft (UA) is mandatory for any UA with a total weight above what?",options:["250 g","1.5 kg","7 kg","25 kg"],answer:0,explanation:"UA registration is mandatory above 250 g."},
+{question:"Which of the following is correct about UA Registration?",options:["Any UA with a total weight of above 250 g must be registered","Registrants must be 16 years old and above at the point of registration","UA must be registered prior to operation","All of the above"],answer:3,explanation:"All listed registration statements are correct."},
+{question:"What are the Class 2 Activity Permit (AP2) conditions?",options:["Exceeding 20ft AMSL, within 5km of a civil aerodrome or military airbase, or within any restricted, danger, or protected area","Exceeding 200ft AMSL, within 5km of a civil aerodrome or military airbase, or within any restricted, danger, or protected area","Exceeding 200ft AMSL, within 5km of a civil aerodrome or military airbase, or within any restricted or danger area","Not exceeding 200ft AMSL, within 5km of a civil aerodrome or military airbase, or within any restricted, danger, or protected area"],answer:2,explanation:"AP2 applies for higher altitude, aerodrome proximity, restricted, or danger areas."},
+{question:"Which of the following requires both an Operator Permit and Class 1 Activity Permit in Singapore?",options:["Operating a 10 kg unmanned aircraft for educational purposes","Operating a 6 kg unmanned aircraft for recreational purposes above 200 feet AMSL","Operating a 2 kg unmanned aircraft for recreation purpose within 5 km of any aerodrome","Operating a 20 kg unmanned aircraft indoors for experimental testing within private facility"],answer:0,explanation:"Educational use is non-recreational and may require OP and Class 1 AP."},
+{question:"Where on the UA should you stick your registration label?",options:["Main body","Landing Gear","Battery","Remote Control"],answer:0,explanation:"The registration label should be fixed on the UA main body."},
+{question:"Which statement correctly describes the requirement for Broadcast Remote Identification (B-RID) in Singapore?",options:["All unmanned aircraft must be equipped with B-RID regardless of weight and operating conditions","B-RID is only required for unmanned aircraft used for recreational purposes","Unmanned aircraft weighing more than 250g must be equipped with B-RID when operating outdoors, unless operating under an Operator Permit using the FlyItSafe mobile application","B-RID only transmits the unmanned aircraft serial number and does not include operator information"],answer:2,explanation:"B-RID generally applies outdoors above 250 g unless covered by the stated OP/FlyItSafe condition."},
+{question:"It is an offence to operate an unregistered UA that weighs more than 250 g in Singapore. Offenders could face what penalty?",options:["A fine of up to $10,000 and/or imprisonment not exceeding 10 months","A fine of up to $6,000 and/or imprisonment not exceeding 6 months","A fine of up to $10,000 and/or imprisonment not exceeding 6 months","A fine of up to $6,000 and/or imprisonment not exceeding 10 months"],answer:2,explanation:"The penalty can be up to $10,000 and/or 6 months imprisonment."}
 ];
 
 function toggleNavigation() {
