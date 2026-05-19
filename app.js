@@ -374,7 +374,7 @@ function showDisclaimer() {
         title: 'Disclaimer',
         icon: 'info',
         html: `
-            <div style="text-align:left; font-size:14px; line-height:1.6;">
+            <div class="disclaimer-text">
                 <p>
                     This project is an <b>independent educational resource</b> and is 
                     <b>not affiliated with, endorsed by, or connected to the Civil Aviation Authority of Singapore (CAAS)</b>.
