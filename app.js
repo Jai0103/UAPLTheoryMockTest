@@ -369,6 +369,17 @@ if (document.getElementById("timerToggle").checked && secondsLeft > 0) {
 renderQuiz();
 renderFlashcard();
 
+document.addEventListener("DOMContentLoaded", function () {
+    const disclaimerLink = document.getElementById("disclaimerLink");
+
+    if (disclaimerLink) {
+        disclaimerLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            showDisclaimer();
+        });
+    }
+});
+
 function showDisclaimer() {
     Swal.fire({
         title: 'Disclaimer',
@@ -381,11 +392,11 @@ function showDisclaimer() {
                 </p>
 
                 <p>
-                    All questions are created for <b>practice and learning purposes only</b> and may not reflect the exact format, wording, or content of the official UAPL theory examination.
+                    All questions are created for <b>practice and learning purposes only</b> and may not reflect the official exam content.
                 </p>
 
                 <p>
-                    Learners should always refer to official CAAS publications and approved training providers for accurate and updated information.
+                    Please refer to official CAAS materials for accurate information.
                 </p>
             </div>
         `,
