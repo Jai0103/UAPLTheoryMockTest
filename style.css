@@ -513,4 +513,91 @@ button:hover {
     font-size: 14px;
     line-height: 1.6;
 }
+
+.gate {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top, #e8f0fe, #f7fbff);
+    z-index: 9999;
+    padding: 20px;
+}
+
+.gate-box {
+    width: 100%;
+    max-width: 380px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    border: 1px solid #e6eef7;
+}
+
+.gate-icon {
+    font-size: 34px;
+    margin-bottom: 8px;
+}
+
+.gate-box h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #0b5ed7;
+}
+
+.gate-subtitle {
+    font-size: 13px;
+    color: #667085;
+    margin-bottom: 18px;
+}
+
+.gate input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #d7e2ee;
+    outline: none;
+}
+
+.gate input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13,110,253,0.15);
+}
+
+.gate button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 10px;
+    border: none;
+    background: #0d6efd;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.gate button:hover {
+    background: #0b5ed7;
+    transform: translateY(-1px);
+}
+
+#errorMsg {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #d93025;
+    min-height: 18px;
+}
+
+.gate-footer {
+    display: block;
+    margin-top: 14px;
+    font-size: 11px;
+    color: #98a2b3;
+}
+    
 }
