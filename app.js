@@ -407,3 +407,15 @@ function showDisclaimer() {
         width: 600
     });
 }
+
+function checkAccess() {
+    const code = document.getElementById("accessCode").value;
+    const correctCode = "UAPL2026";
+
+    if (code === correctCode) {
+        document.getElementById("gate").style.display = "none";
+        document.getElementById("app").style.display = "block";
+    } else {
+        document.getElementById("errorMsg").innerText = "Invalid access code.";
+    }
+}
