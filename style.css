@@ -480,39 +480,10 @@ button:hover {
     line-height: 1.6;
 }
 
-@media (max-width: 600px) {
-    body { padding: 18px 12px 24px; }
-    .site-logo { width: 58px; }
-    .mode-tabs, .settings-row { max-width: none; }
-    .settings-row, .result-actions, .card-actions {
-        grid-template-columns: 1fr;
-    }
-    .quiz-card, .result-card, .review-card, .flashcard-face {
-        padding: 18px;
-        border-radius: 14px;
-    }
-    .status-row {
-        flex-direction: column;
-        gap: 5px;
-    }
-    .nav-icon-btn {
-        top: 14px;
-        right: 14px;
-        width: 42px;
-        height: 42px;
-        min-height: 42px;
-        font-size: 21px;
-    }
-    .question-nav {
-        grid-template-columns: repeat(5, 1fr);
-    }
-    .page-footer { font-size: 12px; }
+/* =========================
+   LOGIN GATE (FIXED GLOBAL)
+========================= */
 
-    .disclaimer-text {
-    text-align: left;
-    font-size: 14px;
-    line-height: 1.6;
-}
 .gate-overlay {
     position: fixed;
     inset: 0;
@@ -546,8 +517,8 @@ button:hover {
 }
 
 .gate-icon {
-    font-size: 36px;
-    margin-bottom: 8px;
+    font-size: 38px;
+    margin-bottom: 10px;
 }
 
 .gate-modal h2 {
@@ -624,6 +595,40 @@ button:hover {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+@media (max-width: 600px) {
+    body { padding: 18px 12px 24px; }
+    .site-logo { width: 58px; }
+    .mode-tabs, .settings-row { max-width: none; }
+    .settings-row, .result-actions, .card-actions {
+        grid-template-columns: 1fr;
+    }
+    .quiz-card, .result-card, .review-card, .flashcard-face {
+        padding: 18px;
+        border-radius: 14px;
+    }
+    .status-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .nav-icon-btn {
+        top: 14px;
+        right: 14px;
+        width: 42px;
+        height: 42px;
+        min-height: 42px;
+        font-size: 21px;
+    }
+    .question-nav {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .page-footer { font-size: 12px; }
+
+    .disclaimer-text {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 
