@@ -424,3 +424,17 @@ function checkAccess() {
         document.getElementById("errorMsg").innerText = "Invalid access code.";
     }
 }
+
+function initializeApp() {
+    // Call your quiz setup here
+
+    if (typeof loadQuiz === "function") {
+        loadQuiz();
+    }
+
+    if (typeof loadFlashcards === "function") {
+        loadFlashcards();
+    }
+
+    console.log("App initialized after login");
+}
