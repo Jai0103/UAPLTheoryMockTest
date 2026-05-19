@@ -414,18 +414,41 @@ function checkAccess() {
 
     if (code === correctCode) {
 
-        document.getElementById("gate").style.display = "none";
+        Swal.fire({
+            icon: "success",
+            title: "Access Granted",
+            text: "Welcome to UAPL Training Portal",
+            timer: 1200,
+            showConfirmButton: false
+        });
 
-        const app = document.getElementById("app");
-        app.style.display = "block";
+        setTimeout(() => {
+            document.getElementById("gate").style.display = "none";
+            document.getElementById("app").style.display = "block";
 
-        // force layout refresh (fixes some browser render bugs)
-        app.offsetHeight;
+            // FIX MOBILE ZOOM
+            document.body.style.zoom = "1";
 
-        initializeApp();
+            const meta = document.querySelector('meta[name="viewport"]');
+            if (meta) {
+                meta.setAttribute(
+                    "content",
+                    "width=device-width, initial-scale=1.0"
+                );
+            }
+
+            initializeApp();
+        }, 1200);
 
     } else {
-        document.getElementById("errorMsg").innerText = "Invalid access code.";
+
+        Swal.fire({
+            icon: "error",
+            title: "Access Denied",
+            text: "Invalid access code"
+        });
+
+        document.getElementById("errorMsg").innerText = "Incorrect code.";
     }
 }
 
