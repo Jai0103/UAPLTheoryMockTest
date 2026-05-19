@@ -49,7 +49,7 @@ body::before {
 }
 
 .site-logo {
-    width: 58px;
+    width: 72px;
     height: auto;
     display: block;
     margin-bottom: 18px;
@@ -482,7 +482,7 @@ button:hover {
 
 @media (max-width: 600px) {
     body { padding: 18px 12px 24px; }
-    .site-logo { width: 44px; }
+    .site-logo { width: 58px; }
     .mode-tabs, .settings-row { max-width: none; }
     .settings-row, .result-actions, .card-actions {
         grid-template-columns: 1fr;
