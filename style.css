@@ -178,6 +178,9 @@ button:hover {
     z-index: 9997;
     width: 48px;
     height: 48px;
+    min-height: 48px;
+    margin: 0;
+    padding: 0;
     border-radius: 50%;
     background: #fff;
     color: var(--blue-dark);
@@ -186,7 +189,6 @@ button:hover {
     font-size: 24px;
 }
 
-/* NAVIGATION */
 .nav-overlay {
     display: none;
     position: fixed;
@@ -207,6 +209,7 @@ button:hover {
     max-height: min(620px, calc(100dvh - 56px));
     transform: translate(-50%, -50%);
     z-index: 9999;
+    overflow: hidden;
 }
 
 .nav-popup.show { display: block; }
@@ -214,43 +217,288 @@ button:hover {
 .nav-panel {
     background: #fff;
     padding: 18px;
+    border: 1px solid rgba(215, 226, 238, 0.95);
     border-radius: 18px;
     box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
 }
 
-/* QUIZ */
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.nav-header h2 {
+    margin: 0;
+    font-size: 15px;
+    color: var(--blue-dark);
+    text-transform: uppercase;
+}
+
+.nav-close {
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: #f1f5fb;
+    color: #344054;
+    font-size: 22px;
+    box-shadow: none;
+}
+
+.question-nav {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    max-height: calc(100dvh - 190px);
+    overflow-y: auto;
+    padding: 2px;
+}
+
+.nav-btn {
+    min-height: 36px;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    border-radius: 999px;
+    background: #f1f5fb;
+    color: #344054;
+    border: 1px solid #d8e2ef;
+    box-shadow: none;
+}
+
+.nav-btn.active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+}
+
+.nav-btn.correct {
+    background: #e6f4ea;
+    color: var(--green);
+    border-color: #b7dfc2;
+}
+
+.nav-btn.wrong {
+    background: #fce8e6;
+    color: var(--red);
+    border-color: #f3b8b3;
+}
+
+.quiz-status { margin-bottom: 16px; }
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #475467;
+}
+
+.progress-track {
+    height: 9px;
+    background: #dce6f1;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+#quizProgressBar,
+#flashProgressBar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), #20c997);
+    transition: width 0.25s ease;
+}
+
 .quiz-card,
 .result-card,
 .review-card {
     background: var(--surface);
     padding: 30px;
+    border: 1px solid rgba(215, 226, 238, 0.9);
     border-radius: 16px;
+    box-shadow: 0 14px 36px rgba(36, 52, 71, 0.10);
 }
 
 .question-text {
-    font-size: 20px;
+    font-size: clamp(18px, 3vw, 23px);
+    line-height: 1.45;
     font-weight: 800;
     margin-bottom: 20px;
 }
 
+.option {
+    display: block;
+    margin: 10px 0;
+}
+
+.option input { display: none; }
+
+.option span {
+    display: block;
+    padding: 14px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    cursor: pointer;
+    background: #fff;
+}
+
+.option span:hover {
+    background: #f8fbff;
+    border-color: #9cc3ff;
+}
+
+.option input:checked + span {
+    background: #e8f0fe;
+    color: #084298;
+    border-color: var(--blue);
+    font-weight: 700;
+}
+
+.result-card,
+.review-card {
+    display: none;
+    text-align: center;
+}
+
+#finalScore {
+    font-size: 36px;
+    font-weight: 900;
+    margin: 12px 0;
+}
+
+.result-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.flashcard {
+    perspective: 1200px;
+    min-height: 430px;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    min-height: 430px;
+    transition: transform 0.55s ease;
+    transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    background: var(--surface);
+    padding: 30px;
+    border: 1px solid rgba(215, 226, 238, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 14px 36px rgba(36, 52, 71, 0.10);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flashcard-back {
+    transform: rotateY(180deg);
+    text-align: center;
+    background: linear-gradient(135deg, #eef6ff, #f4fbf8);
+    border-color: #b9d7ff;
+}
+
+.answer-text {
+    font-size: 22px;
+    font-weight: 900;
+    color: #084298;
+    background: #e8f0fe;
+    border: 1px solid #b9d7ff;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.explanation-text {
+    color: #43566d;
+    line-height: 1.65;
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.show-question-btn,
+.flashcard-back button {
+    background: var(--green);
+    border-color: var(--green);
+}
+
+.show-question-btn:hover,
+.flashcard-back button:hover {
+    background: #146c2e;
+}
+
+.card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.card-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    margin-top: 14px;
+}
+
+.review-item {
+    text-align: left;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    margin: 12px 0;
+}
+
+.review-item.correct { border-left: 5px solid var(--green); }
+.review-item.wrong { border-left: 5px solid var(--red); }
+
+.page-footer {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
 /* =========================
-   FIX: LOGIN GATE OVERLAY Z-INDEX ISSUE
+   LOGIN GATE (FIXED GLOBAL)
 ========================= */
 
 .gate-overlay {
     position: fixed;
     inset: 0;
+    width: 100vw;
+    height: 100vh;
     background: rgba(15, 23, 42, 0.55);
     backdrop-filter: blur(6px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100000; /* FIX: always above everything */
+    z-index: 99999;
     padding: 20px;
 }
 
 .gate-modal {
-    position: relative;
     width: 100%;
     max-width: 380px;
     background: #fff;
@@ -259,8 +507,9 @@ button:hover {
     text-align: center;
     box-shadow: 0 25px 70px rgba(0,0,0,0.25);
     animation: popIn 0.25s ease;
-    overflow: visible; /* FIX */
-    z-index: 100001;
+    position: relative; /* ensure #errorMsg absolute works */
+    overflow: visible; /* allow error message to show outside input */
+    z-index: 100000;
 }
 
 .gate-icon {
@@ -287,6 +536,7 @@ button:hover {
     border-radius: 10px;
     border: 1px solid #d7e2ee;
     outline: none;
+    margin-bottom: 36px; /* space for error message */
 }
 
 .gate-modal input:focus {
@@ -304,26 +554,77 @@ button:hover {
     border: none;
     background: #0d6efd;
     color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-/* FIX: error message now always visible */
+.gate-modal button:hover {
+    background: #0b5ed7;
+    transform: translateY(-1px);
+}
+
 #errorMsg {
+    position: absolute; /* fix behind issue */
+    bottom: -28px; /* show below input */
+    left: 50%;
+    transform: translateX(-50%);
     display: block;
-    margin-top: 10px;
     font-size: 13px;
     color: #d93025;
     font-weight: 600;
-    position: relative;
-    z-index: 100002; /* highest */
+    z-index: 100002;
+    min-width: 180px;
+    text-align: center;
 }
 
-/* ANIMATION */
+.gate-footer {
+    display: block;
+    margin-top: 12px;
+    font-size: 11px;
+    color: #98a2b3;
+}
+
 @keyframes popIn {
-    from { transform: scale(0.92); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-/* MOBILE */
 @media (max-width: 600px) {
     body { padding: 18px 12px 24px; }
+    .site-logo { width: 58px; }
+    .mode-tabs, .settings-row { max-width: none; }
+    .settings-row, .result-actions, .card-actions {
+        grid-template-columns: 1fr;
+    }
+    .quiz-card, .result-card, .review-card, .flashcard-face {
+        padding: 18px;
+        border-radius: 14px;
+    }
+    .status-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .nav-icon-btn {
+        top: 14px;
+        right: 14px;
+        width: 42px;
+        height: 42px;
+        min-height: 42px;
+        font-size: 21px;
+    }
+    .question-nav {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .page-footer { font-size: 12px; }
+    .disclaimer-text {
+        text-align: left;
+        font-size: 14px;
+        line-height: 1.6;
+    }
 }
