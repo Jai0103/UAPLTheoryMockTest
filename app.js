@@ -409,15 +409,19 @@ function showDisclaimer() {
 }
 
 function checkAccess() {
-    const code = document.getElementById("accessCode").value;
+    const code = document.getElementById("accessCode").value.trim();
     const correctCode = "UAPL2026";
 
     if (code === correctCode) {
 
         document.getElementById("gate").style.display = "none";
-        document.getElementById("app").style.display = "block";
 
-        // 🚀 IMPORTANT: START QUIZ ONLY AFTER LOGIN
+        const app = document.getElementById("app");
+        app.style.display = "block";
+
+        // force layout refresh (fixes some browser render bugs)
+        app.offsetHeight;
+
         initializeApp();
 
     } else {
