@@ -599,5 +599,114 @@ button:hover {
     font-size: 11px;
     color: #98a2b3;
 }
+
+/* ===== POPUP GATE OVERLAY ===== */
+.gate-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+/* ===== MODAL BOX ===== */
+.gate-modal {
+    width: 100%;
+    max-width: 380px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.25);
+    animation: popIn 0.25s ease;
+}
+
+/* ICON */
+.gate-icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+/* TITLE */
+.gate-modal h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #0b5ed7;
+}
+
+/* SUBTITLE */
+.gate-subtitle {
+    font-size: 13px;
+    color: #667085;
+    margin-bottom: 18px;
+}
+
+/* INPUT */
+.gate-modal input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #d7e2ee;
+    outline: none;
+}
+
+/* FOCUS */
+.gate-modal input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13,110,253,0.15);
+}
+
+/* BUTTON */
+.gate-modal button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 10px;
+    border: none;
+    background: #0d6efd;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.gate-modal button:hover {
+    background: #0b5ed7;
+    transform: translateY(-1px);
+}
+
+/* ERROR */
+#errorMsg {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #d93025;
+    min-height: 18px;
+}
+
+/* FOOTER TEXT */
+.gate-footer {
+    display: block;
+    margin-top: 12px;
+    font-size: 11px;
+    color: #98a2b3;
+}
+
+/* ANIMATION */
+@keyframes popIn {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
     
 }
