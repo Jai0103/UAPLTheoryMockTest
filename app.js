@@ -392,11 +392,14 @@ function showDisclaimer() {
                 </p>
 
                 <p>
-                    All questions are created for <b>practice and learning purposes only</b> and may not reflect the official exam content.
+                            All questions and materials provided are intended strictly for <b>practice and learning purposes only</b>. 
+                            They are not official examination content and may not accurately reflect the structure, wording, or content of 
+                            the actual CAAS theory examination.
                 </p>
 
                 <p>
-                    Please refer to official CAAS materials for accurate information.
+                    Users are advised to refer to official CAAS publications, guidelines, and approved training providers for the 
+                    most accurate, current, and authoritative information.
                 </p>
             </div>
         `,
