@@ -735,6 +735,33 @@ button:hover {
 .show-question-btn:hover {
     background: #146c2e;
 }
+
+.card-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    min-width: 0;
+    overflow: visible;
+}
+
+.card-actions {
+    align-items: stretch;
+}
+
+@media (max-width: 600px) {
+    .card-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .card-actions button {
+        width: 100%;
+        min-height: 46px;
+    }
+}
     
 }
 </style>
@@ -840,7 +867,10 @@ button:hover {
                 </div>
 
                 <div class="card-actions">
-                    <button class="secondary-btn" onclick="previousFlashcard()">Previous</button>
+                    <button class="secondary-btn icon-btn" onclick="previousFlashcard()">
+    <span class="btn-icon">←</span>
+    <span>Previous</span>
+</button>
                     <button onclick="nextFlashcard()">Next</button>
                     <button class="secondary-btn" onclick="resetFlashcards()">Restart</button>
                 </div>
