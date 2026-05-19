@@ -92,56 +92,7 @@ h1 {
 
 .quiz-layout,
 .flashcard-layout {
-    display: grid;
-    grid-template-columns: 190px 1fr;
-    gap: 20px;
-    align-items: start;
-}
-
-.nav-panel {
-    background: rgba(255, 255, 255, 0.96);
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0 16px 40px rgba(36, 52, 71, 0.1);
-    position: sticky;
-    top: 18px;
-}
-
-.nav-panel h2 {
-    margin: 0 0 12px;
-    font-size: 16px;
-    color: #0b5ed7;
-}
-
-.question-nav {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-}
-
-.nav-btn {
-    width: 100%;
-    margin: 0;
-    padding: 8px 0;
-    font-size: 13px;
-    border-radius: 6px;
-    background: #edf3f8;
-    color: #243447;
-}
-
-.nav-btn.active {
-    background: #0d6efd;
-    color: #fff;
-}
-
-.nav-btn.correct {
-    background: #d1e7dd;
-    color: #0f5132;
-}
-
-.nav-btn.wrong {
-    background: #f8d7da;
-    color: #842029;
+    display: block;
 }
 
 .quiz-status {
@@ -390,10 +341,6 @@ button:hover {
 
     <section id="quizPanel" class="panel active">
         <div class="quiz-layout">
-            <aside class="nav-panel">
-                <h2>Quiz Navigation</h2>
-                <div id="quizNav" class="question-nav"></div>
-            </aside>
 
             <main>
                 <div class="quiz-status">
@@ -424,10 +371,7 @@ button:hover {
 
     <section id="flashPanel" class="panel">
         <div class="flashcard-layout">
-            <aside class="nav-panel">
-                <h2>Flashcards</h2>
-                <div id="flashNav" class="question-nav"></div>
-            </aside>
+       
 
             <main>
                 <div class="quiz-status">
@@ -649,21 +593,11 @@ function getScore() {
 }
 
 function renderQuizNav() {
-    document.getElementById("quizNav").innerHTML = questions.map((question, index) => {
-        let className = "nav-btn";
-        if (userAnswers[index] !== null) {
-            className += userAnswers[index] === question.answer ? " correct" : " wrong";
-        }
-        if (index === currentQuestion) className += " active";
-        return `<button class="${className}" onclick="goToQuestion(${index})">${index + 1}</button>`;
-    }).join("");
+  
 }
 
 function renderFlashNav() {
-    document.getElementById("flashNav").innerHTML = questions.map((question, index) => {
-        const className = index === currentFlashcard ? "nav-btn active" : "nav-btn";
-        return `<button class="${className}" onclick="goToFlashcard(${index})">${index + 1}</button>`;
-    }).join("");
+ 
 }
 
 function renderQuiz() {
